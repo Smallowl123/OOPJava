@@ -83,7 +83,32 @@ public class Test {
         doucheAccount.setPerson(detectiveDouche);
         doucheAccount.setTariff(tariff2);
 
+        AccountsManager manager0 = new AccountsManager(8);
+        manager0.add(doucheAccount);
 
+        manager0.add(doucheAccount);
+        manager0.add(doucheAccount);
+        manager0.add(doucheAccount);
+        manager0.add(doucheAccount);
+        manager0.add(doucheAccount);
+        manager0.add(doucheAccount);
+        manager0.add(doucheAccount);
+        manager0.add(doucheAccount);
+        manager0.add(doucheAccount);
+        manager0.add(doucheAccount);
+        manager0.add(doucheAccount);
+        manager0.add(doucheAccount);
+        manager0.add(doucheAccount);
+        System.out.println(manager0.size());
+        AccountsManager manager1 = new AccountsManager(manager0.getAccounts());
+        manager1.add(3, detectiveAccount);
+        manager1.add(4, manager1.get(3));
+        manager0.set(1, detectiveAccount);
+        System.out.println(manager0.remove(9));
+        System.out.println(manager0.set(1, detectiveAccount).getNumber());
+        doucheAccount.setTariff(manager0.getTariff(0));
+
+        System.out.println(manager1.setTariff(0, tariff0));
 
 
 

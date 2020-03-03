@@ -93,21 +93,19 @@ public class AccountsManager {
 
     public IndividualsTariff getTariff (long accountNumber) {
         for (Account account : accounts) {
-            if (account.number == accountNumber) {
+            if (account.getNumber() == accountNumber) {
                 return account.tariff;
             }
-        }
-        return (new IndividualsTariff());
+        }return new IndividualsTariff();
     }
 
     public IndividualsTariff setTariff (long accountNumber, IndividualsTariff tariff) {
         for (Account account : accounts) {
-            if (account.number == accountNumber) {
-                IndividualsTariff replacedTariff = account.tariff;
-                account.tariff = tariff;
-                tariff = replacedTariff;
+            if (account.getNumber() == accountNumber) {
+                IndividualsTariff replacedTariff = account.getTariff();
+                account.setTariff(tariff);
+                return replacedTariff;
             }
-        }
-        return (tariff);
+        } return new IndividualsTariff();
     }
 }

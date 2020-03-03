@@ -57,7 +57,7 @@ public class IndividualsTariff {
 
     public Service get (String serviceName) {
         for (Service service : services) {
-            if (service.name.equals(serviceName)) {
+            if (service.getName().equals(serviceName)) {
                 return service;
             }
         }
@@ -67,7 +67,7 @@ public class IndividualsTariff {
     public boolean hasService (String serviceName) {    //Какой-то косяк
         for (Service service : services) {
             if (service != null){
-                if (service.name.equals(serviceName)) {
+                if (service.getName().equals(serviceName)) {
                     return true;
                 }
             }
@@ -103,7 +103,7 @@ public class IndividualsTariff {
 
     public Service remove (String serviceName) {
         for (int i=0; i < services.length; i++) {
-            if (services[i].name.equals(serviceName)) {
+            if (services[i].getName().equals(serviceName)) {
                 Service removedService = services[i];
                 services[i] = null;
                 count--;
@@ -133,7 +133,7 @@ public class IndividualsTariff {
         Service[] sortingServices = getServices();
         for(int i = sortingServices.length-1 ; i > 0 ; i--){
             for(int j = 0 ; j < i ; j++){
-            if( sortingServices[j].cost > sortingServices[j+1].cost ){
+            if( sortingServices[j].getCost() > sortingServices[j+1].getCost() ){
                 Service tmp = sortingServices[j];
                 sortingServices[j] = sortingServices[j+1];
                 sortingServices[j+1] = tmp;
@@ -146,7 +146,7 @@ public class IndividualsTariff {
     public double cost(){
         double cost = 50;
         for (Service service : getServices()){
-            cost += service.cost;
+            cost += service.getCost();
         }
         return (cost);
     }
