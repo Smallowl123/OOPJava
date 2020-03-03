@@ -66,8 +66,10 @@ public class IndividualsTariff {
 
     public boolean hasService (String serviceName) {    //Какой-то косяк
         for (Service service : services) {
-            if (service.name.equals(serviceName)) {
-                return true;
+            if (service != null){
+                if (service.name.equals(serviceName)) {
+                    return true;
+                }
             }
         }
         return false;

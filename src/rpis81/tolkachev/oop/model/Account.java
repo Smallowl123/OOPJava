@@ -8,7 +8,10 @@ public class Account {
     public Account (long number, Person person) {
         this.number = number;
         this.person = person;
+        IndividualsTariff tariff = new IndividualsTariff();
         tariff.add(new Service());
+        this.tariff = tariff;
+
     }
 
     public Account (long number, Person person, IndividualsTariff tariff) {

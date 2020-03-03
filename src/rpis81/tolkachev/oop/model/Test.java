@@ -2,52 +2,89 @@ package rpis81.tolkachev.oop.model;
 
 public class Test {
     public static void lab1test () {
-        Service InternetXXL = new Service();
-        System.out.println(InternetXXL.getName());
-        System.out.println(InternetXXL.getCost());
-        InternetXXL.setCost(200);
-        InternetXXL.setName("Телевидение 239 каналов");
-        System.out.println(InternetXXL.getName());
-        System.out.println(InternetXXL.getCost());
+        Service internetXXL = new Service();
+        System.out.println(internetXXL.getName());
+        System.out.println(internetXXL.getCost());
+        internetXXL.setCost(200);
+        internetXXL.setName("Телевидение 239 каналов");
+        System.out.println(internetXXL.getName());
+        System.out.println(internetXXL.getCost());
 
 
-        Service SmartHouse = new Service("Умный дом", 20);
-        System.out.println(SmartHouse.getName());
-        System.out.println(SmartHouse.getCost());
+        Service smartHouse = new Service("Умный дом", 20);
+        System.out.println(smartHouse.getName());
+        System.out.println(smartHouse.getCost());
 
-        IndividualsTariff Tariff0 = new IndividualsTariff();  //Тариф 1
-        System.out.println(Tariff0.services.length);
-        Tariff0.add(SmartHouse);
-        System.out.println(Tariff0.size());
-        Tariff0.add(6, InternetXXL);
-        System.out.println(Tariff0.size());
-        System.out.println(Tariff0.get("Умный дом").name);
-        System.out.println(Tariff0.get(6).name);
+        IndividualsTariff tariff0 = new IndividualsTariff();  //Тариф 1
+        System.out.println(tariff0.services.length);
+        tariff0.add(smartHouse);
+        System.out.println(tariff0.size());
+        tariff0.add(6, internetXXL);
+        System.out.println(tariff0.size());
+        System.out.println(tariff0.get("Умный дом").name);
+        System.out.println(tariff0.get(6).name);
+        tariff0.add(smartHouse);
+        tariff0.add(smartHouse);
+        tariff0.add(smartHouse);
+        tariff0.add(smartHouse);
+        tariff0.add(smartHouse);
+        tariff0.add(smartHouse);
+        tariff0.add(smartHouse);
+        tariff0.add(smartHouse);
+        tariff0.add(smartHouse);
+        tariff0.add(smartHouse);
+        tariff0.add(smartHouse);
+
+        tariff0.add(tariff0.set(8, internetXXL));
+        tariff0.add(tariff0.remove(8));
+        tariff0.add(tariff0.remove("Умный дом"));
+        System.out.println(tariff0.services.length);
 
 
-        IndividualsTariff Tariff1 = new IndividualsTariff(16); //Тариф 2
-        System.out.println(Tariff1.services.length);
-        Tariff1.add(3, SmartHouse);
-        Tariff1.add(2, InternetXXL);
-        System.out.println(Tariff1.cost());
-        for (int i = 0; i < Tariff1.sortedServicesByCost().length; i++ ) {
-            System.out.println(Tariff1.sortedServicesByCost()[i].name);
+
+        IndividualsTariff tariff1 = new IndividualsTariff(16); //Тариф 2
+        System.out.println(tariff1.services.length);
+        tariff1.add(3, smartHouse);
+        tariff1.add(2, internetXXL);
+        System.out.println(tariff1.cost());
+        for (int i = 0; i < tariff1.sortedServicesByCost().length; i++ ) {
+            System.out.println(tariff1.sortedServicesByCost()[i].name);
         }
 
 
 
-        IndividualsTariff Tariff2 = new IndividualsTariff(Tariff1.services); //Тариф 3 (копия второго)
-        System.out.println(Tariff2.services.length);
-        System.out.println(Tariff2.get(2).name);
-        Tariff2.set(3, InternetXXL);
-        System.out.println(Tariff2.get(3).name);
-        System.out.println(Tariff2.size());
-        Tariff2.remove(2);
-        System.out.println(Tariff2.size());
-        Tariff2.remove("Телевидение 239 каналов");
-        System.out.println(Tariff2.size());
+        IndividualsTariff tariff2 = new IndividualsTariff(tariff1.services); //Тариф 3 (копия второго)
+        System.out.println(tariff2.services.length);
+        System.out.println(tariff2.get(2).name);
+        tariff2.set(3, internetXXL);
+        System.out.println(tariff2.get(3).name);
+        System.out.println(tariff2.size());
+        System.out.println((tariff2.hasService("Телевидение 239 каналов")));
+        tariff2.remove(2);
+        System.out.println(tariff2.size());
+        tariff2.remove("Телевидение 239 каналов");
+        System.out.println(tariff2.size());
 
-        System.out.println((Tariff2.hasService("Телевидение 239 каналов")));
+        System.out.println((tariff2.hasService("Телевидение 239 каналов")));
+
+        Person douche = new Person("Dan","Espinoza");
+        System.out.println(douche.getFName());
+        System.out.println((douche.getSName()));
+        Person detectiveDouche = new Person("Detective","Douche");
+
+        Account doucheAccount = new Account(0, douche);
+        Account detectiveAccount = new Account(1, detectiveDouche, tariff0);
+
+        System.out.println(doucheAccount.getNumber());
+        System.out.println(detectiveAccount.getPerson().sName);
+
+        System.out.println(doucheAccount.getTariff().get(0).name);
+
+        doucheAccount.setPerson(detectiveDouche);
+        doucheAccount.setTariff(tariff2);
+
+
+
 
 
     }
