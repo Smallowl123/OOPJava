@@ -1,6 +1,10 @@
 package rpis81.tolkachev.oop.model;
 
 public class Test {
+    public static void main(String[] args) {
+        Test.lab1test();
+        Test.lab2test();
+    }
     public static void lab1test () {
         Service internetXXL = new Service();
         System.out.println(internetXXL.getName());
@@ -72,8 +76,8 @@ public class Test {
         System.out.println((douche.getSName()));
         Person detectiveDouche = new Person("Detective","Douche");
 
-        Account doucheAccount = new Account(0, douche);
-        Account detectiveAccount = new Account(1, detectiveDouche, tariff0);
+        IndividualAccount doucheAccount = new IndividualAccount(0, douche);
+        IndividualAccount detectiveAccount = new IndividualAccount(1, detectiveDouche, tariff0);
 
         System.out.println(doucheAccount.getNumber());
         System.out.println(detectiveAccount.getPerson().sName);
@@ -113,8 +117,43 @@ public class Test {
 
 
     }
-    public static void main(String[] args) {
-        Test.lab1test();
+
+    public static void lab2test (){
+        Tariff firstTariff = new EntityTariff();
+        Account firstEntity = new EntityAccount("First",0);
+        System.out.println(firstTariff.size());
+        Account secondEntity = new EntityAccount("Second",1, firstTariff);
+        ((EntityAccount)firstEntity).setName("Zero");
+        System.out.println(((EntityAccount)firstEntity).getName());
+        firstTariff.add(new Service("Голова убийца", 50));
+        System.out.println(firstTariff.size());
+        firstTariff.add(new Service("Интернет 100мб/с", 50));
+        System.out.println(firstTariff.size());
+        firstTariff.get("Интернет 100мб/с");
+        System.out.println(firstTariff.get(1).getName());
+        firstTariff.hasService("Интернет 100мб/с");
+        firstTariff.set(1, new Service("Голова убийца", 50));
+        System.out.println(firstTariff.size());
+        firstTariff.remove(1);
+        System.out.println(firstTariff.size());
+        System.out.println(firstTariff.get(0).getName());
+        firstTariff.add(new Service("Интернет 100мб/с",50));
+        System.out.println(firstTariff.get(1).getName());
+        System.out.println(firstTariff.size());
+        firstTariff.remove("Интернет 100мб/с");
+        firstTariff.add(new Service("Интернет 100мб/с",50));
+        System.out.println(firstTariff.get(1).getName());
+        firstTariff.getServices();
+        firstTariff.sortedServicesByCost();
+        System.out.println(firstTariff.cost());
+        Tariff secondTariff = new EntityTariff(firstTariff.sortedServicesByCost());
+        System.out.println(secondTariff.cost());
+
+
+
+
+
+
     }
 }
 

@@ -1,6 +1,6 @@
 package rpis81.tolkachev.oop.model;
 
-public class IndividualsTariff {
+public class IndividualsTariff implements Tariff {
     private int count = 0;
     Service[] services;
 //Конструкторы
@@ -30,6 +30,7 @@ public class IndividualsTariff {
         }
     }
 
+    @Override
     public boolean add (Service service) {
         increase();
         for (int i = 0; i < services.length; i++) {
@@ -42,6 +43,7 @@ public class IndividualsTariff {
         return(true);
     }
 
+    @Override
     public boolean add (int index, Service service) {
         increase();
         if (services[index] == null) {
@@ -51,10 +53,12 @@ public class IndividualsTariff {
         return(true);
     }
 
+    @Override
     public Service get (int index) {
         return (services[index]);
     }
 
+    @Override
     public Service get (String serviceName) {
         for (Service service : services) {
             if (service.getName().equals(serviceName)) {
@@ -64,6 +68,7 @@ public class IndividualsTariff {
         return (new Service());
     }
 
+    @Override
     public boolean hasService (String serviceName) {    //Какой-то косяк
         for (Service service : services) {
             if (service != null){
@@ -75,6 +80,7 @@ public class IndividualsTariff {
         return false;
     }
 
+    @Override
     public Service set (int index, Service service) {
         Service replacedService = services[index];
         services[index] = service;
@@ -93,6 +99,7 @@ public class IndividualsTariff {
         services = newArray;
     }
 
+    @Override
     public Service remove (int index) {
     Service removedService = services[index];
     services[index] = null;
@@ -101,6 +108,7 @@ public class IndividualsTariff {
     return (removedService);
     }
 
+    @Override
     public Service remove (String serviceName) {
         for (int i=0; i < services.length; i++) {
             if (services[i].getName().equals(serviceName)) {
@@ -113,10 +121,12 @@ public class IndividualsTariff {
         return (new Service());
     }
 
+    @Override
     public int size() {
         return (count);
     }
 
+    @Override
     public Service[] getServices() {
         Service[] getServicesArray = new Service[count];
         int index = 0;
@@ -129,6 +139,7 @@ public class IndividualsTariff {
         return (getServicesArray);
     }
 
+    @Override
     public Service[] sortedServicesByCost () {
         Service[] sortingServices = getServices();
         for(int i = sortingServices.length-1 ; i > 0 ; i--){
@@ -143,6 +154,7 @@ public class IndividualsTariff {
         return (sortingServices);
     }
 
+    @Override
     public double cost(){
         double cost = 50;
         for (Service service : getServices()){

@@ -91,18 +91,18 @@ public class AccountsManager {
         return (getAccountsArray);
     }
 
-    public IndividualsTariff getTariff (long accountNumber) {
+    public Tariff getTariff (long accountNumber) {
         for (Account account : accounts) {
             if (account.getNumber() == accountNumber) {
-                return account.tariff;
+                return account.getTariff();
             }
         }return new IndividualsTariff();
     }
 
-    public IndividualsTariff setTariff (long accountNumber, IndividualsTariff tariff) {
+    public Tariff setTariff (long accountNumber, IndividualsTariff tariff) {
         for (Account account : accounts) {
             if (account.getNumber() == accountNumber) {
-                IndividualsTariff replacedTariff = account.getTariff();
+                Tariff replacedTariff = account.getTariff();
                 account.setTariff(tariff);
                 return replacedTariff;
             }
