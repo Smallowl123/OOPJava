@@ -1,38 +1,21 @@
 package rpis81.tolkachev.oop.model;
 
-public class EntityAccount implements Account {
+public class EntityAccount extends AbstractAccount {
     String name;
-    long number;
-    Tariff tariff;
 
     //Конструкторы
-    public EntityAccount (String name, long number){
+    public EntityAccount (long number, String name){
+        super(number, new EntityTariff());
         this.name = name;
-        this.number = number;
         Tariff tariff = new EntityTariff();
         tariff.add(new Service());
-        this.tariff = tariff;
+        setTariff(tariff);
+
     }
 
-    public EntityAccount (String name, long number, Tariff tariff){
+    public EntityAccount (long number, String name, Tariff tariff){
+        super(number, tariff);
         this.name = name;
-        this.number = number;
-        this.tariff = tariff;
-    }
-
-    @Override
-    public long getNumber() {
-        return number;
-    }
-
-    @Override
-    public Tariff getTariff() {
-        return tariff;
-    }
-
-    @Override
-    public void setTariff(Tariff tariff) {
-        this.tariff = tariff;
     }
 
     public String getName(){

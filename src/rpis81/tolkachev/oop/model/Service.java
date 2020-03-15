@@ -1,32 +1,31 @@
 package rpis81.tolkachev.oop.model;
 
-public class Service {
-    String name;
-    double cost;
+public final class Service {
+    final String name;
+    final double cost;
+    final ServiceTypes type;
 //Конструкторы
-    public Service(String name, double cost) {
+    public Service(String name, double cost, ServiceTypes type) {
         this.name = name;
         this.cost = cost;
+        this.type = type;
     }
 
     public Service() {
         name = "Интернет 100мб/с";
         cost = 300;
+        type = ServiceTypes.INTERNET;
     }
 //Методы
     public String getName () {
         return(name);
     }
 
-    public void setName (String name) {
-        this.name = name;
-    }
-
     public double getCost() {
         return cost;
     }
 
-    public void setCost(double cost) {
-        this.cost = cost;
+    public ServiceTypes getType(){
+        return type;
     }
 }

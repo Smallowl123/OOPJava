@@ -141,7 +141,7 @@ public class EntityTariff implements Tariff{
 
     @Override
     public int size(){
-        return size;
+        return size - 1;
     }
 
     @Override
@@ -175,5 +175,20 @@ public class EntityTariff implements Tariff{
             cost += service.getCost();
         }
         return (cost);
+    }
+
+    @Override
+    public Service[] getServices (ServiceTypes type){
+        Service[] services = new Service[size - 1];
+        int index = 0;
+        for (Service service : getServices()){
+            if (service.getType() == type) {
+                services[index] = service;
+                index++;
+            }
+        }
+        Service[] getServicesArray = new Service[index];
+        System.arraycopy(services, 0, getServicesArray, 0, index);
+        return getServicesArray;
     }
 }

@@ -108,4 +108,48 @@ public class AccountsManager {
             }
         } return new IndividualsTariff();
     }
+
+    public Account[] getAccounts (ServiceTypes serviceType){
+        Account[] getAccountsArray = new Account[count];
+        int index = 0;
+        for (Account account : accounts){
+            for (Service service: account.getTariff().getServices()){
+                if (service.getType() == serviceType){
+                    getAccountsArray[index] = account;
+                    index++;
+                }
+            }
+        }
+        Account[] shortArray = new Account[index];
+        System.arraycopy(getAccountsArray, 0, shortArray, 0, index);
+        return shortArray;
+    }
+
+    public Account[] getIndividualAccounts(){
+        Account[] getAccountsArray = new Account[count];
+        int index = 0;
+        for (Account account : accounts){
+            if (account instanceof IndividualAccount){
+                getAccountsArray[index] = account;
+                index++;
+            }
+        }
+        Account[] shortArray = new Account[index];
+        System.arraycopy(getAccountsArray, 0, shortArray, 0, index);
+        return shortArray;
+    }
+
+    public Account[] getEntityAccounts(){
+        Account[] getAccountsArray = new Account[count];
+        int index = 0;
+        for (Account account : accounts){
+            if (account instanceof EntityAccount){
+                getAccountsArray[index] = account;
+                index++;
+            }
+        }
+        Account[] shortArray = new Account[index];
+        System.arraycopy(getAccountsArray, 0, shortArray, 0, index);
+        return shortArray;
+    }
 }
