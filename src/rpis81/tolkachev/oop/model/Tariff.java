@@ -15,4 +15,8 @@ public interface Tariff {
     Service[] sortedServicesByCost ();
     double cost();
     Service[] getServices(ServiceTypes type);
+    String toString();
+    int hashCode();
+    boolean equals(Object obj);
+    public Object clone() throws CloneNotSupportedException;
 }

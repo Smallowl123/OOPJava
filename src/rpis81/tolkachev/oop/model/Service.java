@@ -1,6 +1,8 @@
 package rpis81.tolkachev.oop.model;
 
-public final class Service {
+import java.util.Objects;
+
+public final class Service implements java.lang.Cloneable {
     final String name;
     final double cost;
     final ServiceTypes type;
@@ -27,5 +29,34 @@ public final class Service {
 
     public ServiceTypes getType(){
         return type;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %f.р", name, cost);
+    }
+
+    @Override
+    public int hashCode() {
+        return Double.hashCode(cost) * Objects.hashCode(name) * Objects.hashCode(type);
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(this == obj) {
+            return true;
+        }
+        if(!(obj instanceof Service)) {
+            return false;
+        }
+        Service other = (Service)obj;
+        return Objects.equals(name, other.name) &&
+                Objects.equals(cost, other.cost) &&
+                Objects.equals(type, other.type);
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

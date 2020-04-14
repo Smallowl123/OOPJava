@@ -1,5 +1,7 @@
 package rpis81.tolkachev.oop.model;
 
+import java.util.Objects;
+
 public class EntityTariff implements Tariff{
     private Node head;
     private Node tail;
@@ -190,5 +192,54 @@ public class EntityTariff implements Tariff{
         Service[] getServicesArray = new Service[index];
         System.arraycopy(services, 0, getServicesArray, 0, index);
         return getServicesArray;
+    }
+
+    @Override
+    public String toString() {
+        Service[] services = getServices();
+        StringBuilder builder = new StringBuilder();
+        for (Service service : services){
+            builder.append(service.toString());
+            builder.append("\n");
+        }
+        return builder.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 71;
+        Service[] services = getServices();
+        for (Service service : services){
+                System.out.println(hash);
+                System.out.println(service.hashCode());
+                hash *= service.hashCode();
+                System.out.println(hash);
+            }
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(this == obj) {
+            return true;
+        }
+        if(!(obj instanceof EntityTariff)) {
+            return false;
+        }
+        EntityTariff other = (EntityTariff) obj;
+        if(!Objects.equals(size, other.size)) {
+            return false;
+        }
+        for (int i = 0; i < size - 1; i++){
+            if (!this.getServices()[i].equals(other.getServices()[i])){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

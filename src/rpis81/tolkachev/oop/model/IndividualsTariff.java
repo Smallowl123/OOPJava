@@ -1,5 +1,7 @@
 package rpis81.tolkachev.oop.model;
 
+import java.util.Objects;
+
 public class IndividualsTariff implements Tariff {
     private int count = 0;
     Service[] services;
@@ -178,5 +180,51 @@ public class IndividualsTariff implements Tariff {
         Service[] getServicesArray = new Service[index];
         System.arraycopy(services, 0, getServicesArray, 0, services.length);
         return getServicesArray;
+    }
+
+    @Override
+    public String toString() {
+        Service[] services = getServices();
+        StringBuilder builder = new StringBuilder();
+        for (Service service : services){
+            builder.append(service.toString());
+            builder.append("\n");
+        }
+        return builder.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 31;
+        Service[] services = getServices();
+        for (Service service : services){
+            hash *= service.hashCode();
+        }
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(this == obj) {
+            return true;
+        }
+        if(!(obj instanceof IndividualsTariff)) {
+            return false;
+        }
+        IndividualsTariff other = (IndividualsTariff) obj;
+        if(!Objects.equals(count, other.count)) {
+            return false;
+        }
+        for (int i = 0; i < count; i++){
+            if (!this.getServices()[i].equals(other.getServices()[i])){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
