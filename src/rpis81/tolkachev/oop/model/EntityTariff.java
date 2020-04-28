@@ -198,6 +198,8 @@ public class EntityTariff implements Tariff{
     public String toString() {
         Service[] services = getServices();
         StringBuilder builder = new StringBuilder();
+        builder.append("services:");
+        builder.append("\n");
         for (Service service : services){
             builder.append(service.toString());
             builder.append("\n");
@@ -207,14 +209,10 @@ public class EntityTariff implements Tariff{
 
     @Override
     public int hashCode() {
-        int hash = 71;
-        Service[] services = getServices();
-        for (Service service : services){
-                System.out.println(hash);
-                System.out.println(service.hashCode());
-                hash *= service.hashCode();
-                System.out.println(hash);
-            }
+        int hash = 31;
+        for (Service service : getServices()){
+            hash ^= service.hashCode();
+        }
         return hash;
     }
 
@@ -241,5 +239,37 @@ public class EntityTariff implements Tariff{
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    @Override
+    public boolean remove (Service service){
+        for (int i = 0; i < size - 1; i++){
+            if (get(i).equals(service)) {
+                remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int indexOf (Service service){
+        for (int i = 0; i < size - 1; i++){
+            if (get(i).equals(service)) {
+                return i;
+            }
+        }
+        return size * 10;
+    }
+
+    @Override
+    public int lastIndexOf (Service service){
+        int last = size * 10;
+        for (int i = 0; i < size - 1; i++){
+            if (get(i).equals(service)) {
+                last = i;
+            }
+        }
+        return last;
     }
 }

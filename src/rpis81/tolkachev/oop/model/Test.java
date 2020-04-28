@@ -1,10 +1,10 @@
 package rpis81.tolkachev.oop.model;
 
 public class Test {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CloneNotSupportedException {
     lab4test();
     }
-    public static void lab4test(){
+    public static void lab4test() throws CloneNotSupportedException {
         System.out.println("Создаем 3 сервиса: 2 интернета и один мобильный");
         Service XXLInternet = new Service();
         Service XLInternet = new Service("Интернет 75мб/с", 200, ServiceTypes.INTERNET);
@@ -35,10 +35,21 @@ public class Test {
         Me.add(firstEntity);
         Me.add(secondEntity);
 
-        System.out.println(entityTariffSMSWeakInternet.toString());
-        System.out.println(XXLInternet.hashCode());
+        System.out.println("Тестируем toString'и");
+        System.out.println(Me.toString());
 
+        System.out.println("Тестируем hashCode'ы");
+        System.out.println(individualWithTwoInternets.hashCode());
+        System.out.println(entityTariffSMSWeakInternet.hashCode());
+        System.out.println(Me.hashCode());
 
+        System.out.println("Тестируем clone и equals");
+        System.out.println(SMSMobile.equals(SMSMobile.clone()));
+
+        System.out.println("Тестируем новый remove, indexOf и lastIndexOf");
+        System.out.println(Me.remove(firstIndividual));
+        System.out.println(Me.indexOf(firstEntity));
+        System.out.println(entityTariffSMSWeakInternet.lastIndexOf(XLInternet));
 
 
 

@@ -152,4 +152,52 @@ public class AccountsManager {
         System.arraycopy(getAccountsArray, 0, shortArray, 0, index);
         return shortArray;
     }
+    @Override
+    public String toString() {
+        Account[] accounts = getAccounts();
+        StringBuilder builder = new StringBuilder();
+        for (Account account : accounts){
+            builder.append(account.toString());
+            builder.append("\n");
+        }
+        return builder.toString();
+    }
+
+
+    public boolean remove (Account account) {
+        for (int i = 0; i < accounts.length; i++) {
+            if (accounts[i].equals(account)) {
+                accounts[i] = null;
+                count--;
+                makeArrayContinuityAgain();
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public int indexOf (Account account) {
+        for (int i = 0; i < accounts.length; i++) {
+            if (accounts[i] != null){
+                if (accounts[i].equals(account)) {
+                    return i;
+                }
+            }
+        }
+        return accounts.length * 10;
+    }
+
+
+    public int lastIndexOf (Account account) {
+        int last = accounts.length * 10;
+        for (int i = 0; i < accounts.length; i++) {
+            if (accounts[i] != null){
+                if (accounts[i].equals(account)) {
+                    last = i;
+                }
+            }
+        }
+        return last;
+    }
 }

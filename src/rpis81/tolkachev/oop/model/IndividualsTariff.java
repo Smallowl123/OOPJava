@@ -119,6 +119,7 @@ public class IndividualsTariff implements Tariff {
                 Service removedService = services[i];
                 services[i] = null;
                 count--;
+                makeArrayContinuityAgain();
                 return (removedService);
             }
         }
@@ -186,6 +187,8 @@ public class IndividualsTariff implements Tariff {
     public String toString() {
         Service[] services = getServices();
         StringBuilder builder = new StringBuilder();
+        builder.append("services:");
+        builder.append("\n");
         for (Service service : services){
             builder.append(service.toString());
             builder.append("\n");
@@ -196,9 +199,8 @@ public class IndividualsTariff implements Tariff {
     @Override
     public int hashCode() {
         int hash = 31;
-        Service[] services = getServices();
-        for (Service service : services){
-            hash *= service.hashCode();
+        for (Service service : getServices()){
+            hash ^= service.hashCode();
         }
         return hash;
     }
@@ -226,5 +228,43 @@ public class IndividualsTariff implements Tariff {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    @Override
+    public boolean remove(Service service) {
+        for (int i = 0; i < services.length; i++) {
+            if (services[i].equals(service)) {
+                services[i] = null;
+                count--;
+                makeArrayContinuityAgain();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int indexOf (Service service) {
+        for (int i = 0; i < services.length; i++) {
+            if (services[i] != null){
+                if (services[i].equals(service)) {
+                    return i;
+                }
+            }
+        }
+        return services.length * 10;
+    }
+
+    @Override
+    public int lastIndexOf (Service service) {
+        int last = services.length * 10;
+        for (int i = 0; i < services.length; i++) {
+            if (services[i] != null){
+                if (services[i].equals(service)) {
+                    last = i;
+                }
+            }
+        }
+        return last;
     }
 }

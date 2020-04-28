@@ -18,5 +18,9 @@ public interface Tariff {
     String toString();
     int hashCode();
     boolean equals(Object obj);
-    public Object clone() throws CloneNotSupportedException;
+    Object clone() throws CloneNotSupportedException;
+    boolean remove (Service service);
+    int indexOf (Service service);
+    int lastIndexOf (Service service);
+
 }

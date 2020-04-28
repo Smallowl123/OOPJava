@@ -38,7 +38,7 @@ public final class Service implements java.lang.Cloneable {
 
     @Override
     public int hashCode() {
-        return Double.hashCode(cost) * Objects.hashCode(name) * Objects.hashCode(type);
+        return Objects.hash(name, cost, type);
     }
 
     @Override
