@@ -1,5 +1,6 @@
 package rpis81.tolkachev.oop.model;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class IndividualAccount extends AbstractAccount {
@@ -8,17 +9,17 @@ public class IndividualAccount extends AbstractAccount {
     Tariff tariff;
     //Конструкторы
     public IndividualAccount (long number, Person person) {
-        super(number, new IndividualsTariff());
-        this.person = person;
+        super(number, new IndividualsTariff(), LocalDate.now());
+        this.person = Objects.requireNonNull(person,"Значение person не должно быть Null");
         Tariff tariff = new IndividualsTariff();
         tariff.add(new Service());
         setTariff(tariff);
 
     }
 
-    public IndividualAccount (long number, Person person, Tariff tariff) {
-        super(number, tariff);
-        this.person = person;
+    public IndividualAccount (long number, Person person, Tariff tariff, LocalDate registrationDate) {
+        super(number, tariff, registrationDate);
+        this.person = Objects.requireNonNull(person,"Значение person не должно быть Null");
     }
     //Методы
     public Person getPerson() {
@@ -26,7 +27,7 @@ public class IndividualAccount extends AbstractAccount {
     }
 
     public void setPerson(Person person) {
-        this.person = person;
+        this.person = Objects.requireNonNull(person,"Значение person не должно быть Null");
     }
 
     @Override

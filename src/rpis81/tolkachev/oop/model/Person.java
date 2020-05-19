@@ -7,8 +7,8 @@ public class Person {
     String sName;
     //Конструкторы
     public Person (String fName, String sName) {
-    this.fName = fName;
-    this.sName = sName;
+        this.fName = Objects.requireNonNull(fName,"Значение fName не должно быть Null");
+        this.sName = Objects.requireNonNull(fName,"Значение sName не должно быть Null");
     }
     //Методы
     public String getFName() {

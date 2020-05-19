@@ -1,5 +1,7 @@
 package rpis81.tolkachev.oop.model;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Objects;
 
 public class EntityTariff implements Tariff{
@@ -24,6 +26,10 @@ public class EntityTariff implements Tariff{
     }
 
     private Node getNode(int index){
+        if (index < 0 && index >= size){
+            throw new IndexOutOfBoundsException("Недопустимый индекс элемента");
+        }
+        else
         if (index == 0) return head;
         Node node = head;
         for (int i = 0; i < index; i++){
@@ -55,6 +61,9 @@ public class EntityTariff implements Tariff{
     }
 
     private boolean addNode (int index, Service service){
+        if (index < 0 && index >= size){
+            throw new IndexOutOfBoundsException("Недопустимый индекс элемента");
+        }
         if (getNode(index) == head){
             addNode(head.getValue());
             head.setValue(service);
@@ -72,6 +81,9 @@ public class EntityTariff implements Tariff{
     }
 
     private Node removeNode (int index){
+        if (index < 0 && index >= size){
+            throw new IndexOutOfBoundsException("Недопустимый индекс элемента");
+        }
         Node node = getNode(index), nextNode = node.getNext(), previousNode = node.getPrevious();
         previousNode.setNext(nextNode);
         nextNode.setPrevious(previousNode);
@@ -80,10 +92,13 @@ public class EntityTariff implements Tariff{
     }
 
     private Service setNode (int index, Service service){
-        Node node = getNode(index);
-        Service replacedService = node.getValue();
-        node.setValue(service);
-        return replacedService;
+        if (index < 0 && index >= size){
+            throw new IndexOutOfBoundsException("Недопустимый индекс элемента");
+        }
+            Node node = getNode(index);
+            Service replacedService = node.getValue();
+            node.setValue(service);
+            return replacedService;
     }
 
     @Override
@@ -93,16 +108,23 @@ public class EntityTariff implements Tariff{
 
     @Override
     public boolean add (int index, Service service){
+        if (index < 0 && index >= size){
+            throw new IndexOutOfBoundsException("Недопустимый индекс элемента");
+        }
         return addNode(index, service);
     }
 
     @Override
     public Service get (int index){
+        if (index < 0 && index >= size){
+            throw new IndexOutOfBoundsException("Недопустимый индекс элемента");
+        }
         return getNode(index).getValue();
     }
 
     @Override
     public Service get (String serviceName){
+
         for (int i = 0; i < size; i++){
             if (getNode(i).getValue().getName().equals(serviceName) && getNode(i).getValue().getName() != null) {
                 return getNode(i).getValue();
@@ -123,11 +145,17 @@ public class EntityTariff implements Tariff{
 
     @Override
     public Service set (int index, Service service){
+        if (index < 0 && index >= size){
+            throw new IndexOutOfBoundsException("Недопустимый индекс элемента");
+        }
         return setNode(index, service);
     }
 
     @Override
     public Service remove (int index){
+        if (index < 0 && index >= size){
+            throw new IndexOutOfBoundsException("Недопустимый индекс элемента");
+        }
         return removeNode(index).getValue();
     }
 
@@ -173,10 +201,18 @@ public class EntityTariff implements Tariff{
     @Override
     public double cost(){
         double cost = 50;
-        for (Service service : getServices()){
-            cost += service.getCost();
+        for (Service service : getServices()) {
+            if (isLessThenMonth(service)){
+                cost += service.getCost()*Period.between(service.getActivationDate(),LocalDate.now()).getDays()/30;
+            }
+            else cost += service.getCost();
         }
         return (cost);
+    }
+
+    public boolean isLessThenMonth(Service service){
+        Period period = Period.between(service.getActivationDate(), LocalDate.now());
+        return period.getDays() < 30;
     }
 
     @Override
@@ -190,6 +226,9 @@ public class EntityTariff implements Tariff{
             }
         }
         Service[] getServicesArray = new Service[index];
+        if (index < 0 && index >= size){
+            throw new IllegalAccountNumberException("Недопустимый индекс элемента");
+        }
         System.arraycopy(services, 0, getServicesArray, 0, index);
         return getServicesArray;
     }

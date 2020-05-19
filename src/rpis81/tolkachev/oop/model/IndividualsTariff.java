@@ -1,5 +1,7 @@
 package rpis81.tolkachev.oop.model;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Objects;
 
 public class IndividualsTariff implements Tariff {
@@ -8,7 +10,8 @@ public class IndividualsTariff implements Tariff {
 
     //Конструкторы
     public IndividualsTariff() {
-        services = new Service[8];
+        int defaultSize = 8;
+        services = new Service[defaultSize];
     }
 
     public IndividualsTariff(int size) {
@@ -49,6 +52,9 @@ public class IndividualsTariff implements Tariff {
 
     @Override
     public boolean add(int index, Service service) {
+        if (index < 0 && index >= services.length){
+            throw new IllegalAccountNumberException("Недопустимый индекс элемента");
+        }
         increase();
         if (services[index] == null) {
             services[index] = service;
@@ -59,6 +65,9 @@ public class IndividualsTariff implements Tariff {
 
     @Override
     public Service get(int index) {
+        if (index < 0 && index >= services.length){
+            throw new IllegalAccountNumberException("Недопустимый индекс элемента");
+        }
         return (services[index]);
     }
 
@@ -86,6 +95,9 @@ public class IndividualsTariff implements Tariff {
 
     @Override
     public Service set(int index, Service service) {
+        if (index < 0 && index >= services.length){
+            throw new IllegalAccountNumberException("Недопустимый индекс элемента");
+        }
         Service replacedService = services[index];
         services[index] = service;
         return (replacedService);
@@ -105,6 +117,9 @@ public class IndividualsTariff implements Tariff {
 
     @Override
     public Service remove(int index) {
+        if (index < 0 && index >= services.length){
+            throw new IllegalAccountNumberException("Недопустимый индекс элемента");
+        }
         Service removedService = services[index];
         services[index] = null;
         makeArrayContinuityAgain();
@@ -163,9 +178,17 @@ public class IndividualsTariff implements Tariff {
     public double cost() {
         double cost = 50;
         for (Service service : getServices()) {
-            cost += service.getCost();
+            if (isLessThenMonth(service)){
+                cost += service.getCost()*Period.between(service.getActivationDate(),LocalDate.now()).getDays()/30;
+            }
+            else cost += service.getCost();
         }
         return (cost);
+    }
+
+    public boolean isLessThenMonth(Service service){
+        Period period = Period.between(service.getActivationDate(),LocalDate.now());
+        return period.getDays() < 30;
     }
 
     @Override

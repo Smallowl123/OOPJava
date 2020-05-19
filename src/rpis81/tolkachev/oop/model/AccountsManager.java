@@ -1,5 +1,9 @@
 package rpis81.tolkachev.oop.model;
 
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class AccountsManager {
     private int count = 0;
     Account[] accounts;
@@ -24,11 +28,13 @@ public class AccountsManager {
         }
     }
 
-    public boolean add (Account account) {
+    public boolean add (Account account) throws DublicateAccountNumberException {
+        if(isExists(account))
+            throw new DublicateAccountNumberException("Аккаунт с таким номером уже существует");
         increase();
         for (int i = 0; i < accounts.length; i++) {
             if (accounts[i] == null) {
-                accounts[i] = account;
+                accounts[i] = Objects.requireNonNull(account,"Значение account не должно быть Null");;
                 count++;
                 break;
             }
@@ -36,22 +42,35 @@ public class AccountsManager {
         return(true);
     }
 
-    public boolean add (int index, Account account) {
+    public boolean add (int index, Account account) throws DublicateAccountNumberException {
+        if (index < 0 && index >= accounts.length){
+            throw new IllegalAccountNumberException("Недопустимый индекс элемента");
+        }
+        if(isExists(account))
+            throw new DublicateAccountNumberException("Аккаунт с таким номером уже существует");
         increase();
         if (accounts[index] == null) {
-            accounts[index] = account;
+            accounts[index] = Objects.requireNonNull(account,"Значение account не должно быть Null");
             count++;
         }
         return(true);
     }
 
     public Account get (int index){
+        if (index < 0 && index >= accounts.length){
+            throw new IllegalAccountNumberException("Недопустимый индекс элемента");
+        }
         return (accounts[index]);
     }
 
-    public Account set (int index, Account account) {
+    public Account set (int index, Account account) throws DublicateAccountNumberException {
+        if (index < 0 && index >= accounts.length){
+            throw new IllegalAccountNumberException("Недопустимый индекс элемента");
+        }
+        if(isExists(account))
+            throw new DublicateAccountNumberException("Аккаунт с таким номером уже существует");
         Account replacedAccount = accounts[index];
-        accounts[index] = account;
+        accounts[index] = Objects.requireNonNull(account,"Значение account не должно быть Null");
         return (replacedAccount);
     }
 
@@ -68,6 +87,9 @@ public class AccountsManager {
     }
 
     public Account remove (int index) {
+        if (index < 0 && index >= accounts.length){
+            throw new IllegalAccountNumberException("Недопустимый индекс элемента");
+        }
         Account removedAccount = accounts[index];
         accounts[index] = null;
         makeArrayContinuityAgain();
@@ -92,6 +114,10 @@ public class AccountsManager {
     }
 
     public Tariff getTariff (long accountNumber) {
+        if (!isProperNumber(accountNumber)){
+            throw new IllegalAccountNumberException("Неверный формат номера");
+        }
+        else
         for (Account account : accounts) {
             if (account.getNumber() == accountNumber) {
                 return account.getTariff();
@@ -100,10 +126,13 @@ public class AccountsManager {
     }
 
     public Tariff setTariff (long accountNumber, IndividualsTariff tariff) {
+        if (!isProperNumber(accountNumber)){
+            throw new IllegalAccountNumberException("Неверный формат номера");
+        }
         for (Account account : accounts) {
             if (account.getNumber() == accountNumber) {
                 Tariff replacedTariff = account.getTariff();
-                account.setTariff(tariff);
+                account.setTariff(Objects.requireNonNull(tariff,"Значение tariff не должно быть Null"));
                 return replacedTariff;
             }
         } return new IndividualsTariff();
@@ -114,7 +143,7 @@ public class AccountsManager {
         int index = 0;
         for (Account account : accounts){
             for (Service service: account.getTariff().getServices()){
-                if (service.getType() == serviceType){
+                if (service.getType() == Objects.requireNonNull(serviceType,"Значение serviceType не должно быть Null")){
                     getAccountsArray[index] = account;
                     index++;
                 }
@@ -166,7 +195,7 @@ public class AccountsManager {
 
     public boolean remove (Account account) {
         for (int i = 0; i < accounts.length; i++) {
-            if (accounts[i].equals(account)) {
+            if (accounts[i].equals(Objects.requireNonNull(account,"Значение account не должно быть Null"))) {
                 accounts[i] = null;
                 count--;
                 makeArrayContinuityAgain();
@@ -180,7 +209,7 @@ public class AccountsManager {
     public int indexOf (Account account) {
         for (int i = 0; i < accounts.length; i++) {
             if (accounts[i] != null){
-                if (accounts[i].equals(account)) {
+                if (accounts[i].equals(Objects.requireNonNull(account,"Значение account не должно быть Null"))) {
                     return i;
                 }
             }
@@ -193,11 +222,28 @@ public class AccountsManager {
         int last = accounts.length * 10;
         for (int i = 0; i < accounts.length; i++) {
             if (accounts[i] != null){
-                if (accounts[i].equals(account)) {
+                if (accounts[i].equals(Objects.requireNonNull(account,"Значение account не должно быть Null"))) {
                     last = i;
                 }
             }
         }
         return last;
+    }
+
+    private boolean isProperNumber (long number){
+        Pattern pattern = Pattern.compile("^\\d{1,15}$");
+        String strNumber = Long.toString(number);
+        Matcher matcher = pattern.matcher(strNumber);
+        return matcher.find();
+    }
+    public boolean isExists (Account account){
+        for(Account accountFromArray: accounts){
+            if (accountFromArray!=null){
+                if(accountFromArray.getNumber() == account.getNumber()){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
