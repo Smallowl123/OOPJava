@@ -2,6 +2,8 @@ package rpis81.tolkachev.oop.model;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Objects;
 
 public class IndividualsTariff implements Tariff {
@@ -160,21 +162,6 @@ public class IndividualsTariff implements Tariff {
     }
 
     @Override
-    public Service[] sortedServicesByCost() {
-        Service[] sortingServices = getServices();
-        for (int i = sortingServices.length - 1; i > 0; i--) {
-            for (int j = 0; j < i; j++) {
-                if (sortingServices[j].getCost() > sortingServices[j + 1].getCost()) {
-                    Service tmp = sortingServices[j];
-                    sortingServices[j] = sortingServices[j + 1];
-                    sortingServices[j + 1] = tmp;
-                }
-            }
-        }
-        return (sortingServices);
-    }
-
-    @Override
     public double cost() {
         double cost = 50;
         for (Service service : getServices()) {
@@ -208,14 +195,14 @@ public class IndividualsTariff implements Tariff {
 
     @Override
     public String toString() {
-        Service[] services = getServices();
         StringBuilder builder = new StringBuilder();
         builder.append("services:");
         builder.append("\n");
-        for (Service service : services){
+        iterator().forEachRemaining(service ->
+        {
             builder.append(service.toString());
             builder.append("\n");
-        }
+        });
         return builder.toString();
     }
 

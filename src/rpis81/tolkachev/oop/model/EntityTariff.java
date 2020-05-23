@@ -8,17 +8,18 @@ public class EntityTariff implements Tariff{
     private Node head;
     private Node tail;
     private int size;
+    final public int defaultSize = 2;
 
     public EntityTariff(){
         head = new Node(null, tail,null);
         tail = new Node(head, null, null);
-        size = 2;
+        size = defaultSize;
     }
 
     public EntityTariff(Service[] services){
         head = new Node(null, tail,null);
         tail = new Node(head, null, null);
-        size = 2;
+        size = defaultSize;
         for (int i = 1; i < services.length; i++) {
             addNode(services[i]);
             size++;
@@ -184,21 +185,6 @@ public class EntityTariff implements Tariff{
     }
 
     @Override
-    public Service[] sortedServicesByCost (){
-        Service[] sortingServices = getServices();
-        for(int i = sortingServices.length-1 ; i > 0 ; i--){
-            for(int j = 0 ; j < i ; j++){
-                if( sortingServices[j].getCost() > sortingServices[j+1].getCost() ){
-                    Service tmp = sortingServices[j];
-                    sortingServices[j] = sortingServices[j+1];
-                    sortingServices[j+1] = tmp;
-                }
-            }
-        }
-        return (sortingServices);
-    }
-
-    @Override
     public double cost(){
         double cost = 50;
         for (Service service : getServices()) {
@@ -235,14 +221,14 @@ public class EntityTariff implements Tariff{
 
     @Override
     public String toString() {
-        Service[] services = getServices();
         StringBuilder builder = new StringBuilder();
         builder.append("services:");
         builder.append("\n");
-        for (Service service : services){
+        iterator().forEachRemaining(service ->
+        {
             builder.append(service.toString());
             builder.append("\n");
-        }
+        });
         return builder.toString();
     }
 

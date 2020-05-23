@@ -1,6 +1,11 @@
 package rpis81.tolkachev.oop.model;
 
-public interface Tariff {
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.PrimitiveIterator;
+
+public interface Tariff extends java.lang.Iterable<Service> {
 
     boolean add (Service service);
     boolean add (int index, Service service);
@@ -12,7 +17,6 @@ public interface Tariff {
     Service remove (String serviceName);
     int size();
     Service[] getServices();
-    Service[] sortedServicesByCost ();
     double cost();
     Service[] getServices(ServiceTypes type);
     String toString();
@@ -23,4 +27,38 @@ public interface Tariff {
     int indexOf (Service service);
     int lastIndexOf (Service service);
 
+    default public Service[] sortedServicesByCost() {
+        Service[] sortingServices = getServices();
+        Arrays.sort(sortingServices);
+        return (sortingServices);
+    }
+
+    default public Iterator<Service> iterator() {
+        return new ServiceIterator(getServices());
+    }
+
+    public static class ServiceIterator implements java.util.Iterator<Service> {
+
+        private int index;
+        private final Service[] services;
+        private final int defaultIndex = 0;
+
+
+        public ServiceIterator (Service[] arrayOfServices) {
+            services = arrayOfServices;
+            index = defaultIndex;
+        }
+
+        public boolean hasNext() {
+            return index < services.length;
+        }
+
+        @Override
+        public Service next() {
+            if(hasNext()) {
+                return services[index++];
+        }
+        throw new NoSuchElementException("Элементов больше не осталось");
+        }
+    }
 }

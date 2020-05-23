@@ -4,9 +4,9 @@ import java.time.LocalDate;
 
 public class Test {
     public static void main(String[] args) throws CloneNotSupportedException, DublicateAccountNumberException {
-    lab5test();
+    lab6test();
     }
-    public static void lab5test() throws CloneNotSupportedException, DublicateAccountNumberException {
+    public static void lab6test() throws DublicateAccountNumberException {
         System.out.println("Создаем 3 сервиса: 2 интернета и один мобильный");
         Service XXLInternet = new Service();
         Service XLInternet = new Service("Интернет 75мб/с", 200, ServiceTypes.INTERNET, LocalDate.of(2009,12,3));
@@ -36,19 +36,17 @@ public class Test {
         Me.add(firstIndividual);
         Me.add(firstEntity);
         Me.add(secondEntity);
+
+        System.out.println("Тестируем итератор");
         System.out.println(Me.toString());
 
-        System.out.println(individualWithTwoInternets.hashCode());
-        System.out.println(entityTariffSMSWeakInternet.hashCode());
+
         System.out.println(Me.hashCode());
 
-        System.out.println("Проверяем исключения");
-        //Service rrrInternet = new Service(null,500,ServiceTypes.INTERNET,LocalDate.of(1999,12,12));
-        //Service rInternet = new Service("Название",-500,ServiceTypes.INTERNET,LocalDate.of(1999,12,12));
-        //Service rrInternet = new Service("Название",500,null,LocalDate.of(1999,12,12));
-        //Service rRrInternet = new Service("Название",500,ServiceTypes.INTERNET,null);
-        //EntityAccount rAcc  = new EntityAccount(4444444,"Ракк",entityTariffSMSInternet,LocalDate.of(2035,12,12));
-        //Account sixIndividual = new IndividualAccount(999999*999999*9999999, new Person("fName0","sName0"), individualWithTwoInternets, LocalDate.now());
+        System.out.println("Тестируем сортировку по цене");
+        System.out.println(entityTariffSMSInternet.sortedServicesByCost()[0].toString());
+        System.out.println(entityTariffSMSInternet.sortedServicesByCost()[1].toString());
+
 
 
 

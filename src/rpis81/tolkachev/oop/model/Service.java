@@ -3,11 +3,15 @@ package rpis81.tolkachev.oop.model;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public final class Service implements java.lang.Cloneable {
+public final class Service implements java.lang.Cloneable, java.lang.Comparable<Service> {
     final String name;
     final double cost;
     final ServiceTypes type;
     final LocalDate activationDate;
+    final String defaultName = "Интернет 100мб/с";
+    final double defaultCost = 300;
+    final ServiceTypes defaultType = ServiceTypes.INTERNET;
+    final LocalDate actualDate = LocalDate.now();
 
 //Конструкторы
     public Service(String name, double cost, ServiceTypes type, LocalDate activationDate) {
@@ -21,10 +25,6 @@ public final class Service implements java.lang.Cloneable {
     }
 
     public Service() {
-        String defaultName = "Интернет 100мб/с";
-        double defaultCost = 300;
-        ServiceTypes defaultType = ServiceTypes.INTERNET;
-        LocalDate actualDate = LocalDate.now();
         name = defaultName;
         cost = defaultCost;
         type = defaultType;
@@ -75,5 +75,10 @@ public final class Service implements java.lang.Cloneable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    @Override
+    public int compareTo(Service service) {
+        return (int) (cost - service.cost);
     }
 }

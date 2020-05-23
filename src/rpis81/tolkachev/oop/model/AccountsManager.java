@@ -1,10 +1,12 @@
 package rpis81.tolkachev.oop.model;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AccountsManager {
+public class AccountsManager implements java.lang.Iterable<Account> {
     private int count = 0;
     Account[] accounts;
     //Конструкторы
@@ -183,12 +185,12 @@ public class AccountsManager {
     }
     @Override
     public String toString() {
-        Account[] accounts = getAccounts();
         StringBuilder builder = new StringBuilder();
-        for (Account account : accounts){
+        iterator().forEachRemaining(account ->
+        {
             builder.append(account.toString());
             builder.append("\n");
-        }
+        });
         return builder.toString();
     }
 
@@ -245,5 +247,35 @@ public class AccountsManager {
             }
         }
         return false;
+    }
+
+    @Override
+    public Iterator<Account> iterator() {
+        return new AccountIterator(getAccounts());
+    }
+
+    private static class AccountIterator implements java.util.Iterator<Account> {
+
+        private int index;
+        private final Account[] accounts;
+        private final int defaultIndex = 0;
+
+
+        public AccountIterator (Account[] arrayOfAccounts) {
+            accounts = arrayOfAccounts;
+            index = defaultIndex;
+        }
+
+        public boolean hasNext() {
+            return index < accounts.length;
+        }
+
+        @Override
+        public Account next() {
+            if(hasNext()) {
+                return accounts[index++];
+            }
+            throw new NoSuchElementException("Элементов больше не осталось");
+        }
     }
 }
