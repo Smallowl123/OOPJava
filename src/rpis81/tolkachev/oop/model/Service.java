@@ -47,6 +47,7 @@ public final class Service implements java.lang.Cloneable, java.lang.Comparable<
         return activationDate;
     }
 
+
     @Override
     public String toString() {
         return String.format("%s %f.р %s", name, cost, activationDate);

@@ -1,8 +1,6 @@
 package rpis81.tolkachev.oop.model;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -140,48 +138,48 @@ public class AccountsManager implements java.lang.Iterable<Account> {
         } return new IndividualsTariff();
     }
 
-    public Account[] getAccounts (ServiceTypes serviceType){
-        Account[] getAccountsArray = new Account[count];
-        int index = 0;
+    public Set<Account> getAccounts (ServiceTypes serviceType){
+        HashSet<Account> accountsSet = new HashSet<>();
         for (Account account : accounts){
-            for (Service service: account.getTariff().getServices()){
+            for (Service service: account.getTariff().toArray()){
                 if (service.getType() == Objects.requireNonNull(serviceType,"Значение serviceType не должно быть Null")){
-                    getAccountsArray[index] = account;
-                    index++;
+                    accountsSet.add(account);
                 }
             }
         }
-        Account[] shortArray = new Account[index];
-        System.arraycopy(getAccountsArray, 0, shortArray, 0, index);
-        return shortArray;
+        return accountsSet;
     }
 
-    public Account[] getIndividualAccounts(){
-        Account[] getAccountsArray = new Account[count];
-        int index = 0;
+    public Set<Account> getAccounts (String serviceName){
+        HashSet<Account> accountsSet = new HashSet<>();
+        for (Account account : accounts){
+            for (Service service: account.getTariff().toArray()){
+                if (service.getName().equals(Objects.requireNonNull(serviceName, "Значение serviceName не должно быть Null"))){
+                    accountsSet.add(account);
+                }
+            }
+        }
+        return accountsSet;
+    }
+
+    public List<Account> getIndividualAccounts(){
+        ArrayList<Account> accountsList = new ArrayList<>();
         for (Account account : accounts){
             if (account instanceof IndividualAccount){
-                getAccountsArray[index] = account;
-                index++;
+                accountsList.add(account);
             }
         }
-        Account[] shortArray = new Account[index];
-        System.arraycopy(getAccountsArray, 0, shortArray, 0, index);
-        return shortArray;
+        return accountsList;
     }
 
-    public Account[] getEntityAccounts(){
-        Account[] getAccountsArray = new Account[count];
-        int index = 0;
+    public List<Account> getEntityAccounts(){
+        ArrayList<Account> accountsList = new ArrayList<>();
         for (Account account : accounts){
             if (account instanceof EntityAccount){
-                getAccountsArray[index] = account;
-                index++;
+                accountsList.add(account);
             }
         }
-        Account[] shortArray = new Account[index];
-        System.arraycopy(getAccountsArray, 0, shortArray, 0, index);
-        return shortArray;
+        return accountsList;
     }
     @Override
     public String toString() {

@@ -4,9 +4,9 @@ import java.time.LocalDate;
 
 public class Test {
     public static void main(String[] args) throws CloneNotSupportedException, DublicateAccountNumberException {
-    lab6test();
+    lab7test();
     }
-    public static void lab6test() throws DublicateAccountNumberException {
+    public static void lab7test() throws DublicateAccountNumberException {
         System.out.println("Создаем 3 сервиса: 2 интернета и один мобильный");
         Service XXLInternet = new Service();
         Service XLInternet = new Service("Интернет 75мб/с", 200, ServiceTypes.INTERNET, LocalDate.of(2009,12,3));
@@ -36,22 +36,19 @@ public class Test {
         Me.add(firstIndividual);
         Me.add(firstEntity);
         Me.add(secondEntity);
-
-        System.out.println("Тестируем итератор");
         System.out.println(Me.toString());
-
-
         System.out.println(Me.hashCode());
 
-        System.out.println("Тестируем сортировку по цене");
-        System.out.println(entityTariffSMSInternet.sortedServicesByCost()[0].toString());
-        System.out.println(entityTariffSMSInternet.sortedServicesByCost()[1].toString());
 
+        System.out.println("Проверяем новую реализацию Tariff и Stream'ы");
+        System.out.println(entityTariffSMSInternet.getServices(ServiceTypes.INTERNET));
+        System.out.println(entityTariffSMSInternet.getServicesSortedByCost());
 
-
-
-
-
+        System.out.println("Проверяем новую реализацию методов AccountManager");
+        Me.getAccounts(ServiceTypes.INTERNET);
+        Me.getAccounts("500 SMS");
+        Me.getEntityAccounts();
+        Me.getIndividualAccounts();
     }
 }
 

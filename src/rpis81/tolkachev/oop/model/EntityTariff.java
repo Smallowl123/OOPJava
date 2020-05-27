@@ -2,6 +2,7 @@ package rpis81.tolkachev.oop.model;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class EntityTariff implements Tariff{
@@ -176,18 +177,18 @@ public class EntityTariff implements Tariff{
     }
 
     @Override
-    public Service[] getServices(){
-        Service[] services = new Service[size - 1];
-        for (int i = 0; i < size - 1; i++){
-            services[i] = get(i);
+    public Service[] toArray() {
+        Service[] spaces = new Service[size];
+        for(int i = 0; i < size; i++) {
+            spaces[i] = get(i);
         }
-        return services;
+        return Arrays.stream(spaces).filter(Objects::nonNull).toArray(Service[]::new);
     }
 
     @Override
     public double cost(){
         double cost = 50;
-        for (Service service : getServices()) {
+        for (Service service : toArray()) {
             if (isLessThenMonth(service)){
                 cost += service.getCost()*Period.between(service.getActivationDate(),LocalDate.now()).getDays()/30;
             }
@@ -199,24 +200,6 @@ public class EntityTariff implements Tariff{
     public boolean isLessThenMonth(Service service){
         Period period = Period.between(service.getActivationDate(), LocalDate.now());
         return period.getDays() < 30;
-    }
-
-    @Override
-    public Service[] getServices (ServiceTypes type){
-        Service[] services = new Service[size - 1];
-        int index = 0;
-        for (Service service : getServices()){
-            if (service.getType() == type) {
-                services[index] = service;
-                index++;
-            }
-        }
-        Service[] getServicesArray = new Service[index];
-        if (index < 0 && index >= size){
-            throw new IllegalAccountNumberException("Недопустимый индекс элемента");
-        }
-        System.arraycopy(services, 0, getServicesArray, 0, index);
-        return getServicesArray;
     }
 
     @Override
@@ -235,7 +218,7 @@ public class EntityTariff implements Tariff{
     @Override
     public int hashCode() {
         int hash = 31;
-        for (Service service : getServices()){
+        for (Service service : toArray()){
             hash ^= service.hashCode();
         }
         return hash;
@@ -254,7 +237,7 @@ public class EntityTariff implements Tariff{
             return false;
         }
         for (int i = 0; i < size - 1; i++){
-            if (!this.getServices()[i].equals(other.getServices()[i])){
+            if (!this.toArray()[i].equals(other.toArray()[i])){
                 return false;
             }
         }
